@@ -1,12 +1,17 @@
 import React, {Component} from 'react'
 import Loader from './Loader/Loader'
 import Table from './Table/Table'
+import DetailRowView from './DetailRowView/DetailRowView'
+import _ from 'lodash'
 
 export default class App extends Component {
 
 	state = {
 		isLoading: true,
 		data: [],
+		sort: 'asc',  // 'desc'
+		sortField: 'id', // поле по умолчанию
+		row: null
 	}
 
 	async componentDidMount() {
@@ -15,21 +20,46 @@ export default class App extends Component {
 			/* console.log(data) */
 			this.setState({
 				isLoading: false,
-				data
+				data: _.orderBy(data, this.state.sortField, this.state.sort)
 			})
 	}
+
+	onSort = sortField => {
+
+		const cloneData = this.state.data.concat()
+		const sortType = this.state.sort === 'asc' ? 'desc' : 'asc'
+		const orderedData = _.orderBy(cloneData, sortField, sortType)
+
+		this.setState({
+			data: orderedData,
+			sort: sortType,
+			sortField
+		})
+		/* console.log(sortField) */
+	}
+
+	onRowSelect = row => (
+		this.setState({row})
+	)
+	
 
 	render() {
 		return (
 			<div>
-				<Loader />
-				{/* {
-					this.state.isLoading 
-					? <Loader />
-					: <Table 
-					data={this.state.data}
-					/>
-      			} */}
+			{
+				this.state.isLoading 
+				? <Loader />
+				: <Table 
+				data={this.state.data}
+				onSort={this.onSort}
+				sort={this.state.sort}
+				sortField={this.state.sortField}
+				onRowSelect={this.onRowSelect}
+				/>
+			}
+			{
+        		this.state.row ? <DetailRowView person={this.state.row} /> : null
+      		}
 			</div>
 		)
 	}
