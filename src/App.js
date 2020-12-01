@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import ReactPaginate from 'react-paginate'
+/* import ReactPaginate from 'react-paginate' */
 import Loader from './Loader/Loader'
 import Table from './Table/Table'
 import DetailRowView from './DetailRowView/DetailRowView'
 import ModeSelector from './ModeSelector/ModeSelector'
 import TableSearch from './TableSearch/TableSearch'
+import Pagination from './Pagination/Pagination'
 import _ from 'lodash'
 
 export default class App extends Component {
@@ -33,7 +34,7 @@ export default class App extends Component {
 	async fetchData(url) {
 		const response = await fetch(url)
 		const data = await response.json()
-		console.log(data)
+		console.log(data.filter(item => item.id === 0))
 		this.setState({
 			isLoading: false,
 			data: _.orderBy(data, this.state.sortField, this.state.sort)
@@ -70,9 +71,9 @@ export default class App extends Component {
 		this.setState({ row })
 	)
 
-	pageChangeHandler = ({selected}) => (
+	/* pageChangeHandler = ({selected}) => (
 		this.setState({currentPage: selected})
-	)
+	) */
 
 	searchHandler = search => {
 		this.setState({search, currentPage: 0})
@@ -114,8 +115,8 @@ export default class App extends Component {
 						: <React.Fragment>
 							<TableSearch onSearch={this.searchHandler} />
 							<Table
-							/* data={this.state.data} */
-							data={displayData}
+							data={this.state.data}
+							/* data={displayData} */
 							onSort={this.onSort}
 							sort={this.state.sort}
 							sortField={this.state.sortField}
@@ -125,6 +126,11 @@ export default class App extends Component {
 				}
 
 				{
+					this.state.data.length > pageSize
+					? <Pagination /> : null
+				}
+
+				{/* {
 					this.state.data.length > pageSize
 					? <ReactPaginate
 						previousLabel={'<'}
@@ -145,7 +151,7 @@ export default class App extends Component {
 						nextLinkClassName="page-link"
 						forcePage={this.state.currentPage}
 					/> : null
-				}
+				} */}
 
 				{
 					this.state.row ? <DetailRowView person={this.state.row} /> : null
