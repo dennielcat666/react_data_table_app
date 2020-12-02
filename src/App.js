@@ -93,9 +93,25 @@ export default class App extends Component {
 		})
 	}
 
+	getPageData(currentPage, pageSize) {
+		const startElement = currentPage * pageSize
+		const endElement = startElement + pageSize
+
+		const {data} = this.state
+		
+		return data.slice(startElement, endElement)
+	}
+
+	paginationHandler = (currentPage) => {
+
+		/* currentPage => currentPage: currentPage (внизу) */
+		this.setState({currentPage})
+	}
+
 
 	render() {
 		const pageSize = 50
+		const {currentPage, data} = this.state
 		if (!this.state.isModeSelected) {
 			return (
 				<div className="container">
@@ -104,8 +120,15 @@ export default class App extends Component {
 			)
 		}
 
-		const displayData = _.chunk(this.state.data, pageSize)[this.state.currentPage]
+		/* const displayData = _.chunk(this.state.data, pageSize)[this.state.currentPage] */
 		const filteredData = this.getFilteredData()
+
+		const displayData = this.getPageData(currentPage, pageSize)
+		console.log('display', displayData.length, data);
+
+		const pageCount = Math.ceil(data.length / pageSize)
+
+
 
 		return (
 			<div>
@@ -115,8 +138,9 @@ export default class App extends Component {
 						: <React.Fragment>
 							<TableSearch onSearch={this.searchHandler} />
 							<Table
-							data={this.state.data}
-							/* data={displayData} */
+							/* data={this.state.data} */
+							data={displayData}
+							/* data={this.getPageData(currentPage, pageSize)} */
 							onSort={this.onSort}
 							sort={this.state.sort}
 							sortField={this.state.sortField}
@@ -127,7 +151,7 @@ export default class App extends Component {
 
 				{
 					this.state.data.length > pageSize
-					? <Pagination /> : null
+					? <Pagination onClick={this.paginationHandler} pageCount={pageCount} /> : null
 				}
 
 				{/* {
