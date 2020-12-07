@@ -5,6 +5,7 @@ import Table from './Table/Table'
 import DetailRowView from './DetailRowView/DetailRowView'
 import ModeSelector from './ModeSelector/ModeSelector'
 import TableSearch from './TableSearch/TableSearch'
+import InputForm from './InputForm/InputForm'
 import _ from 'lodash'
 
 export default class App extends Component {
@@ -17,7 +18,8 @@ export default class App extends Component {
 		sort: 'asc',  // 'desc'
 		sortField: 'id', // поле по умолчанию
 		row: null,
-		currentPage: 0
+		currentPage: 0,
+		isShowForm: false
 	}
 
 	/* async componentDidMount() { */
@@ -92,6 +94,12 @@ export default class App extends Component {
 		})
 	}
 
+	
+	showForm = val => (
+		this.setState({isShowForm: val})
+	)
+
+
 
 	render() {
 		const pageSize = 50
@@ -103,11 +111,19 @@ export default class App extends Component {
 			)
 		}
 
-		const displayData = _.chunk(this.state.data, pageSize)[this.state.currentPage]
+		/* const displayData = _.chunk(this.state.data, pageSize)[this.state.currentPage] */
 		const filteredData = this.getFilteredData()
+		const pageCount = Math.ceil(filteredData.length / pageSize)
+		const displayData = _.chunk(filteredData, pageSize)[this.state.currentPage]
 
 		return (
 			<div>
+				{
+					this.state.isShowForm
+						? <InputForm showForm={this.showForm} />
+						: <button onClick={() => this.setState ({isShowForm: true})}>Добавить пользователя</button>
+				}
+
 				{
 					this.state.isLoading
 						? <Loader />
@@ -131,7 +147,8 @@ export default class App extends Component {
 						nextLabel={'>'}
 						breakLabel={'...'}
 						breakClassName={'break-me'}
-						pageCount={20}
+						/* pageCount={20} */
+						pageCount={pageCount}
 						marginPagesDisplayed={2}
 						pageRangeDisplayed={5}
 						onPageChange={this.pageChangeHandler}

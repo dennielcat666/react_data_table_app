@@ -11,7 +11,7 @@ export default props => {
 			<div className="input-group-prepend">
 				<button
 					className="btn btn-outline-secondary"
-					onClick={() => props.onSearch(value)}>Search</button>
+					onClick={() => props.onSearch(value)}>Найти</button>
 			</div>
 			<input
 				type="text"
