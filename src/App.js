@@ -99,6 +99,15 @@ export default class App extends Component {
 		this.setState({isShowForm: val})
 	)
 
+	writeToTable = (record) => {
+		this.setState(state => ({data: [record, ...state.data]}))
+		// this.setState(({data: [...this.state.data, record]})
+	}
+
+	// log = record => {
+	// 	console.log(record);
+	// }
+
 
 
 	render() {
@@ -120,7 +129,10 @@ export default class App extends Component {
 			<div>
 				{
 					this.state.isShowForm
-						? <InputForm showForm={this.showForm} />
+						? <InputForm
+							showForm={this.showForm}
+							onSubmit={this.writeToTable}
+							/>
 						: <button onClick={() => this.setState ({isShowForm: true})}>Добавить пользователя</button>
 				}
 

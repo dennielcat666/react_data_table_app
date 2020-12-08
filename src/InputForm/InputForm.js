@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 export default class InputForm extends Component {
 	state = {
-		ID: '',
+		id: '',
 		firstName: '',
 		lastName: '',
 		email: '',
@@ -12,7 +12,7 @@ export default class InputForm extends Component {
 
 	checkEmpty = () => {
 		console.log('showButtom 0', this.state.showButtom);
-		if (this.state.ID === '' || this.state.firstName === '' || this.state.lastName === '' || this.state.email === '' || this.state.phone === '') {
+		if (this.state.id === '' || this.state.firstName === '' || this.state.lastName === '' || this.state.email === '' || this.state.phone === '') {
 			console.log('showButtom 1', this.state.showButtom);
 			return this.setState({ showButtom: false })
 		}
@@ -36,16 +36,18 @@ export default class InputForm extends Component {
 		console.log('showButtom 4', this.state.showButtom);
 	}
 
+
+
 	render() {
-		const { showForm } = this.props
+		const { showForm, onSubmit } = this.props
 		return (
 			<form>
 				<label>
 					<p>ID</p>
 					<input
 						type="text"
-						value={this.state.ID}
-						name="ID"
+						value={this.state.id}
+						name="id"
 						onChange={this.handlerChange}
 					/>
 				</label>
@@ -88,10 +90,17 @@ export default class InputForm extends Component {
 				{
 					this.state.showButtom && (
 						<div>
-							<button onClick={() => showForm(false)}>Добавить</button>
+							{/* <button onClick={() => showForm(false)}>Добавить</button> */}
+							<button onClick={
+								(e) => {
+									e.preventDefault();
+									onSubmit({id: this.state.id, firstName: this.state.firstName, lastName: this.state.lastName, email: this.state.email, phone: this.state.phone})
+								}}
+							>
+								Добавить
+							</button>
 						</div>
 					)
-
 				}
 			</form>
 		)
