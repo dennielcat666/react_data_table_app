@@ -22,13 +22,11 @@ export default class InputForm extends Component {
 		const { value } = event.target
 		const newVal = value.replace(/[^\d]/, '')
 		this.setState({ phone: newVal }, this.checkEmpty)
-		/* this.checkEmpty() */
 	}
 
 	handlerChange = (event) => {
 		const { name, value } = event.target
 		this.setState({ [name]: value }, this.checkEmpty)
-		/* this.checkEmpty() */
 	}
 
 
@@ -85,7 +83,6 @@ export default class InputForm extends Component {
 				{
 					this.state.showButtom && (
 						<div>
-							{/* <button onClick={() => showForm(false)}>Добавить</button> */}
 							<button onClick={
 								(e) => {
 									e.preventDefault();

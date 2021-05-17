@@ -22,16 +22,6 @@ export default class App extends Component {
 		isShowForm: false
 	}
 
-	/* async componentDidMount() { */
-	/* const response = await fetch(`http://www.filltext.com/?rows=32&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}`) */
-	/* const data = await response.json() */
-	/* console.log(data) */
-	/* this.setState({ */
-	/* 	isLoading: false, */
-	/* data: _.orderBy(data, this.state.sortField, this.state.sort) */
-	/* }) */
-	/* 	} */
-
 	async fetchData(url) {
 		const response = await fetch(url)
 		const data = await response.json()
@@ -45,15 +35,10 @@ export default class App extends Component {
 	onSort = sortField => {
 
 		const cloneData = this.state.data.concat()
-		/* sortType */
 		const sort = this.state.sort === 'asc' ? 'desc' : 'asc'
-		/* orderedData */
 		const data = _.orderBy(cloneData, sortField, sort)
 
 		this.setState({data, sort, sortField})
-			/* data: orderedData,
-			sort: sortType,
-			sortField */
 	}
 
 	modeSelectHandler = url => {
@@ -112,7 +97,6 @@ export default class App extends Component {
 			)
 		}
 
-		/* const displayData = _.chunk(this.state.data, pageSize)[this.state.currentPage] */
 		const filteredData = this.getFilteredData()
 		const pageCount = Math.ceil(filteredData.length / pageSize)
 		const displayData = _.chunk(filteredData, pageSize)[this.state.currentPage]
@@ -134,7 +118,6 @@ export default class App extends Component {
 						: <React.Fragment>
 							<TableSearch onSearch={this.searchHandler} />
 							<Table
-							/* data={this.state.data} */
 							data={displayData}
 							onSort={this.onSort}
 							sort={this.state.sort}

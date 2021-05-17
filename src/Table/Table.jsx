@@ -1,6 +1,5 @@
 import React from 'react';
 
-// переписать props в деструктуризацию 
 export default props => (
     <table>
         <thead>
