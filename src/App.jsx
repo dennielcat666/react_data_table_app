@@ -35,7 +35,6 @@ export default class App extends Component {
 	async fetchData(url) {
 		const response = await fetch(url)
 		const data = await response.json()
-		console.log(data)
 		this.setState({
 			isLoading: false,
 			data: _.orderBy(data, this.state.sortField, this.state.sort)
@@ -55,12 +54,9 @@ export default class App extends Component {
 			/* data: orderedData,
 			sort: sortType,
 			sortField */
-		
-		/* console.log(sortField) */
 	}
 
 	modeSelectHandler = url => {
-		/* console.log(url) */
 		this.setState({
 			isModeSelected: true,
 			isLoading: true,
@@ -101,14 +97,10 @@ export default class App extends Component {
 
 	writeToTable = (record) => {
 		this.setState(state => ({data: [record, ...state.data]}))
+
+		/* верхний вариант для более корректной работы без багов в будущем */
 		// this.setState(({data: [...this.state.data, record]})
 	}
-
-	// log = record => {
-	// 	console.log(record);
-	// }
-
-
 
 	render() {
 		const pageSize = 50
@@ -159,7 +151,6 @@ export default class App extends Component {
 						nextLabel={'>'}
 						breakLabel={'...'}
 						breakClassName={'break-me'}
-						/* pageCount={20} */
 						pageCount={pageCount}
 						marginPagesDisplayed={2}
 						pageRangeDisplayed={5}

@@ -11,13 +11,10 @@ export default class InputForm extends Component {
 	}
 
 	checkEmpty = () => {
-		console.log('showButtom 0', this.state.showButtom);
 		if (this.state.id === '' || this.state.firstName === '' || this.state.lastName === '' || this.state.email === '' || this.state.phone === '') {
-			console.log('showButtom 1', this.state.showButtom);
 			return this.setState({ showButtom: false })
 		}
 
-		console.log('showButtom 2', this.state.showButtom);
 		return this.setState({ showButtom: true })
 	}
 
@@ -26,14 +23,12 @@ export default class InputForm extends Component {
 		const newVal = value.replace(/[^\d]/, '')
 		this.setState({ phone: newVal }, this.checkEmpty)
 		/* this.checkEmpty() */
-		console.log('showButtom 3', this.state.showButtom);
 	}
 
 	handlerChange = (event) => {
 		const { name, value } = event.target
 		this.setState({ [name]: value }, this.checkEmpty)
 		/* this.checkEmpty() */
-		console.log('showButtom 4', this.state.showButtom);
 	}
 
 
